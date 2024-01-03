@@ -1,4 +1,7 @@
 // working currently for the Steam release of Halo: The Master Chief Collection version 1.3272.0.0
+
+#include "Split.h"
+
 #include <Windows.h>
 #include <psapi.h>
 #include <libloaderapi.h>
@@ -7,8 +10,6 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
-
-#include "Split.h"
 
 using namespace std;
 
