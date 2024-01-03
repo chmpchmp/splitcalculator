@@ -4,7 +4,6 @@
 
 #include <Windows.h>
 #include <psapi.h>
-#include <libloaderapi.h>
 #include <ctime>
 #include <string>
 #include <sstream>
@@ -16,8 +15,9 @@ using namespace std;
 // two random spaces is correct for whatever reason
 static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
+static string compatible_version = "1.3272.0.0";
 
-const static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName) {
+static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName) {
     HWND hWnd = FindWindowA(lpClassName, lpWindowName);
     DWORD pid;
     GetWindowThreadProcessId(hWnd, &pid);
@@ -26,7 +26,7 @@ const static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpCla
     return handle;
 }
 
-const static unsigned long long get_handle_address(const HANDLE & handle) {
+static unsigned long long get_handle_address(const HANDLE & handle) {
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
@@ -38,7 +38,7 @@ const static unsigned long long get_handle_address(const HANDLE & handle) {
     return NULL;
 }
 
-const static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName) {
+static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName) {
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
@@ -62,14 +62,14 @@ const static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & modu
     return NULL;
 }
 
-const static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address) {
+static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address) {
     byte b = 0;
     ReadProcessMemory(handle, (void*)address, &b, sizeof(byte), NULL);
 
     return (int)b;
 }
 
-const static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL) {
+static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL) {
     int offset = 0;
     char c = '\0';
     string s = "";
@@ -93,7 +93,7 @@ const static string read_string_from_memory(const HANDLE & handle, const unsigne
     return s;
 }
 
-const static string convert_milliseconds(const int & clock_ticks) {
+static string convert_milliseconds(const int & clock_ticks) {
     int ms = clock_ticks / (CLOCKS_PER_SEC / 1000);
 
     int milliseconds = ms % 1000;
@@ -115,6 +115,8 @@ const static string convert_milliseconds(const int & clock_ticks) {
 }
 
 int main() {
+    cout << "Running splitcalculator for Halo: The Master Chief Collection version " << compatible_version << endl;
+
     while (true) {
         HANDLE handle = get_handle(executable, executable_class);
 
@@ -142,10 +144,10 @@ int main() {
                     int menu_value = read_int_byte_from_memory(handle, menu_state);
                     int screen_value = read_int_byte_from_memory(handle, screen_state);
 
-                    string s = read_string_from_memory(handle, halo2_dll + 0xE6FE68, 3);
-                    string t = read_string_from_memory(handle, halo2_dll + 0xE6FE97, 3);
-                    string u = read_string_from_memory(handle, halo2_dll + 0x159FB1B, 3);
-                    string v = read_string_from_memory(handle, halo2_dll + 0x15A144B, 3);
+                    //string s = read_string_from_memory(handle, halo2_dll + 0xE6FE68, 3);
+                    //string t = read_string_from_memory(handle, halo2_dll + 0xE6FE97, 3);
+                    //string u = read_string_from_memory(handle, halo2_dll + 0x159FB1B, 3);
+                    //string v = read_string_from_memory(handle, halo2_dll + 0x15A144B, 3);
 
                     if (menu_value != 0)
                         timer_on = true;
@@ -154,17 +156,17 @@ int main() {
                         // 0 represents player is sitting in menu
                         if (menu_value == 0) {
                             break;
-
                         }
-                        // 129 represents pause screen, 255 represents in-game
-                        else if (screen_value == 129 || screen_value == 255) {
-                            save_time = true;
 
+                        // 129 represents pause screen, 255 represents in-game
+                        if (screen_value == 129 || screen_value == 255) {
+                            save_time = true;
                         }
                         // 44 represents loading screen
                         else if (screen_value == 44) {
                             if (save_time) {
-                                split.update(s);
+                                split.save();
+
                                 addon_time = clock() - reset_value + addon_time;
                                 save_time = false;
                             }
@@ -172,7 +174,7 @@ int main() {
                             reset_value = clock();
                         }
 
-                        split.increment(convert_milliseconds(clock() - reset_value + addon_time));
+                        split.update(convert_milliseconds(clock() - reset_value + addon_time));
                     }
 
                     cout << split.main_split << endl;
@@ -180,8 +182,6 @@ int main() {
             }
 
             CloseHandle(handle);
-        } else {
-            cout << "Window could not be found" << endl;
         }
     }
 }
