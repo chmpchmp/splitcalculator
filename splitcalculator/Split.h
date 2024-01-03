@@ -33,7 +33,7 @@ public:
 
     }
 
-    void increment(const string & split);
-    void update(const string & finished_level);
+    void update(const string & split);
+    void save();
 };
 
