@@ -63,7 +63,6 @@ const static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & modu
 
 const static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address) {
     byte b = 0;
-
     ReadProcessMemory(handle, (void*)address, &b, sizeof(byte), NULL);
 
     return (int)b;
