@@ -70,7 +70,6 @@ const static int read_int_byte_from_memory(const HANDLE & handle, const unsigned
 }
 
 const static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL) {
-    // reads a string starting from the parameter address until it reaches a null terminator
     int offset = 0;
     char c = '\0';
     string s = "";
