@@ -1,0 +1,17 @@
+mainmenu - Loading Screen (probably?)
+
+1 - 00a_introduction - The Heretic
+2 - 01a_tutorial - The Armory
+3 - 01b_spacestation - Cairo Station
+4 - 03a_oldmombasa - Outskirts
+5 - 03b_newmombasa - Metropolis
+6 - 04a_gasgiant - The Arbiter
+7 - 04b_floodlab - The Oracle
+8 - 05a_deltaapproach - Delta Halo
+9 - 05b_deltatowers - Regret
+10 - 06a_sentinelwalls - Sacred Icon
+11 - 06b_floodzone - Quarantine Zone
+12 - 07a_highcharity - Gravemind
+13 - 08a_deltacliffs - Uprising
+14 - 07b_forerunnership - High Charity
+15 - 08b_deltacontrol - The Great Journey
