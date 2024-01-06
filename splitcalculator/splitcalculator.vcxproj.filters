@@ -18,12 +18,12 @@
     <ClCompile Include="splitcalculator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Split.cpp">
+    <ClCompile Include="split.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Split.h">
+    <ClInclude Include="split.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
