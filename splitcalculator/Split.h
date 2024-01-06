@@ -29,9 +29,7 @@ public:
     vector<string> subsplits;
     string main_split;
 
-    Split() : main_split("00:00:00.000") {
-
-    }
+    Split();
 
     void update(const string & split);
     void save();

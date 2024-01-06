@@ -1,5 +1,9 @@
 #include "Split.h"
 
+Split::Split() {
+
+}
+
 void Split::update(const string & split) {
 	main_split = split;
 }
