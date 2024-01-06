@@ -33,25 +33,20 @@ static unsigned long long get_handle_address(const HANDLE & handle) {
     DWORD cbNeeded;
 
     if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded))
-    {
         return (unsigned long long)hModules[0];
-    }
 
-    return NULL;
+    return 0;
 }
 
 static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName) {
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
-    if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded))
-    {
-        for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++)
-        {
+    if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded)) {
+        for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
             TCHAR szModName[MAX_PATH];
 
-            if (GetModuleFileNameEx(handle, hModules[i], szModName, sizeof(szModName) / sizeof(TCHAR)))
-            {
+            if (GetModuleFileNameEx(handle, hModules[i], szModName, sizeof(szModName) / sizeof(TCHAR))) {
                 wstring wstrModName = szModName;
                 wstring wstrModContain = moduleName;
 
