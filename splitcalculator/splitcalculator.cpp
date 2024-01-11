@@ -42,7 +42,6 @@ static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName
 
     if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded)) {
         for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
-            TCHAR szModName[MAX_PATH];
             TCHAR modName[MAX_PATH];
 
             if (GetModuleFileNameEx(handle, hModules[i], modName, sizeof(modName) / sizeof(TCHAR))) {
