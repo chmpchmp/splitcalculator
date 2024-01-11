@@ -234,10 +234,10 @@ int main() {
 
                         split.update(convert_milliseconds(clock() - reset_value + addon_time));
 
-                        //cout << split.main_split << endl;
+                        cout << split.main_split << endl;
                     }
                     else {
-                        //cout << convert_milliseconds(starting_value) << endl;
+                        cout << convert_milliseconds(starting_value) << endl;
                     }
                 }
             }
