@@ -160,11 +160,14 @@ int main() {
             unsigned long long menu_state = main_address + 0x3EC79A9;
             unsigned long long screen_state = main_address + 0x3FBB499;
 
+            // separate handle variable to check whether the game has been closed
+            HANDLE active_handle = handle;
+
             // what the timer should display if the timer is not actively tracking in-game data
             // this value should be the time of when the player exited into the menu after the first use
             int starting_value = 0;
 
-            while (true) {
+            while (active_handle) {
                 clock_t timer = clock();
                 Split split = Split();
 
@@ -173,7 +176,9 @@ int main() {
                 bool save_time = false;
                 bool timer_on = false;
 
-                while (true) {
+                while (active_handle) {
+                    active_handle = get_handle(executable, executable_class);
+
                     int menu_value = read_int_byte_from_memory(handle, menu_state);
                     int screen_value = read_int_byte_from_memory(handle, screen_state);
 
