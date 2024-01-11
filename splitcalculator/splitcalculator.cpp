@@ -199,6 +199,7 @@ int main() {
 
                 while (active_handle)
                 {
+                    CloseHandle(active_handle);
                     active_handle = get_handle(executable, executable_class);
 
                     int menu_value = read_int_byte_from_memory(handle, menu_state);
