@@ -7,7 +7,8 @@ using namespace std;
 
 class Split
 {
-    vector<string> levelnames = {
+    vector<string> levelnames =
+    {
         "00a_introduction", // The Heretic
         "01a_tutorial", // The Armory
         "01b_spacestation", // Cairo Station

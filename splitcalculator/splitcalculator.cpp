@@ -17,7 +17,8 @@ static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
 static string compatible_version = "1.3272.0.0";
 
-static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName) {
+static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName)
+{
     HWND hWnd = FindWindowA(lpClassName, lpWindowName);
     DWORD pid;
     GetWindowThreadProcessId(hWnd, &pid);
@@ -26,7 +27,8 @@ static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName
     return handle;
 }
 
-static unsigned long long get_handle_address(const HANDLE & handle) {
+static unsigned long long get_handle_address(const HANDLE & handle)
+{
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
@@ -36,15 +38,19 @@ static unsigned long long get_handle_address(const HANDLE & handle) {
     return 0;
 }
 
-static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName) {
+static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName)
+{
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
-    if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded)) {
-        for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
+    if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded))
+    {
+        for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++)
+        {
             TCHAR modName[MAX_PATH];
 
-            if (GetModuleFileNameEx(handle, hModules[i], modName, sizeof(modName) / sizeof(TCHAR))) {
+            if (GetModuleFileNameEx(handle, hModules[i], modName, sizeof(modName) / sizeof(TCHAR)))
+            {
                 wstring wstrModName = modName;
                 wstring wstrModContain = moduleName;
 
@@ -57,52 +63,64 @@ static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName
     return NULL;
 }
 
-static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL) {
+static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL)
+{
     int offset = 0;
     char c = '\0';
     string s = "";
 
-    if (length) {
-        do {
+    if (length)
+    {
+        do
+        {
             ReadProcessMemory(handle, (void*)(address + offset), &c, sizeof(char), NULL);
             s += c;
 
             ++offset;
-        } while (offset < length);
-    } else {
-        do {
+        }
+        while (offset < length);
+    }
+    else
+    {
+        do
+        {
             ReadProcessMemory(handle, (void*)(address + offset), &c, sizeof(char), NULL);
             s += c;
 
             ++offset;
-        } while (c);
+        }
+        while (c);
     }
 
     return s;
 }
 
-static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address) {
+static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address)
+{
     byte b = 0;
     ReadProcessMemory(handle, (void*)address, &b, sizeof(byte), NULL);
 
     return (int)b;
 }
 
-static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigned long long & address) {
+static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigned long long & address)
+{
     unsigned long ul = 0;
     ReadProcessMemory(handle, (void*)address, &ul, sizeof(unsigned long), NULL);
 
     return ul;
 }
 
-static unsigned int read_uint_from_memory(const HANDLE & handle, const unsigned long long & address) {
+static unsigned int read_uint_from_memory(const HANDLE & handle, const unsigned long long & address)
+{
     unsigned int ui = 0;
     ReadProcessMemory(handle, (void*)address, &ui, sizeof(unsigned int), NULL);
 
     return ui;
 }
 
-static string convert_milliseconds(const int & clock_ticks) {
+static string convert_milliseconds(const int & clock_ticks)
+{
     int ms = clock_ticks / (CLOCKS_PER_SEC / 1000);
 
     int milliseconds = ms % 1000;
@@ -128,10 +146,12 @@ int main() {
     cout << endl;
     cout << "The timer may break if the build of the game does not match the version above" << endl;
 
-    while (true) {
+    while (true)
+    {
         HANDLE handle = get_handle(executable, executable_class);
 
-        if (handle) {
+        if (handle)
+        {
             unsigned long long main_address = get_handle_address(handle);
 
             // anti-cheat must be turned off to find game module
@@ -167,7 +187,8 @@ int main() {
             // this value should be the time of when the player exited into the menu after the first use
             int starting_value = 0;
 
-            while (active_handle) {
+            while (active_handle)
+            {
                 clock_t timer = clock();
                 Split split = Split();
 
@@ -176,7 +197,8 @@ int main() {
                 bool save_time = false;
                 bool timer_on = false;
 
-                while (active_handle) {
+                while (active_handle)
+                {
                     active_handle = get_handle(executable, executable_class);
 
                     int menu_value = read_int_byte_from_memory(handle, menu_state);
@@ -188,9 +210,11 @@ int main() {
                     if (menu_value != 0)
                         timer_on = true;
 
-                    if (timer_on) {
+                    if (timer_on)
+                    {
                         // 0 represents player is sitting in menu, exit timer
-                        if (menu_value == 0) {
+                        if (menu_value == 0)
+                        {
                             starting_value = clock() - reset_value + addon_time;
                             break;
                         }
@@ -222,11 +246,13 @@ int main() {
                             break;
 
                         // 129 represents pause menu, 255 represents in-game
-                        if (screen_value == 129 || screen_value == 255) {
+                        if (screen_value == 129 || screen_value == 255)
+                        {
                             save_time = true;
                         }
                         // 44 represents loading screen
-                        else if (screen_value == 44) {
+                        else if (screen_value == 44)
+                        {
                             if (save_time) {
                                 split.save();
 
@@ -241,7 +267,8 @@ int main() {
 
                         cout << split.main_split << endl;
                     }
-                    else {
+                    else
+                    {
                         cout << convert_milliseconds(starting_value) << endl;
                     }
                 }
