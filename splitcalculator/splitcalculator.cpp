@@ -17,8 +17,6 @@ static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
 static string compatible_version = "1.3272.0.0";
 
-static string campaign_version = "2";
-
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName) {
     HWND hWnd = FindWindowA(lpClassName, lpWindowName);
     DWORD pid;
@@ -45,9 +43,10 @@ static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName
     if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded)) {
         for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
             TCHAR szModName[MAX_PATH];
+            TCHAR modName[MAX_PATH];
 
-            if (GetModuleFileNameEx(handle, hModules[i], szModName, sizeof(szModName) / sizeof(TCHAR))) {
-                wstring wstrModName = szModName;
+            if (GetModuleFileNameEx(handle, hModules[i], modName, sizeof(modName) / sizeof(TCHAR))) {
+                wstring wstrModName = modName;
                 wstring wstrModContain = moduleName;
 
                 if (wstrModName.find(wstrModContain) != string::npos)
@@ -162,8 +161,6 @@ int main() {
             unsigned long long menu_state = main_address + 0x3EC79A9;
             unsigned long long screen_state = main_address + 0x3FBB499;
 
-            unsigned long long cs_state = 0x0;
-
             // what the timer should display if the timer is not actively tracking in-game data
             // this value should be the time of when the player exited into the menu after the first use
             int starting_value = 0;
@@ -180,7 +177,6 @@ int main() {
                 while (true) {
                     int menu_value = read_int_byte_from_memory(handle, menu_state);
                     int screen_value = read_int_byte_from_memory(handle, screen_state);
-                    int bsp_value = read_int_byte_from_memory(handle, cs_state);
 
                     string s;
 
@@ -199,7 +195,8 @@ int main() {
                             read_int_byte_from_memory(handle, halo1_cs_state) == 7)
                             break;
 
-                        // to do: test this if statement, supposed to stop timer when 
+                        // to do: test this if statement, supposed to stop timer when player reaches last
+                        // cutscene of the great journey
                         if (read_string_from_memory(handle, halo2_dll + 0xE6FE68) == "08b_deltacontrol" &&
                             read_int_byte_from_memory(handle, halo2_cs_state) == 3)
                             break;
@@ -238,10 +235,10 @@ int main() {
 
                         split.update(convert_milliseconds(clock() - reset_value + addon_time));
 
-                        cout << split.main_split << endl;
+                        //cout << split.main_split << endl;
                     }
                     else {
-                        cout << convert_milliseconds(starting_value) << endl;
+                        //cout << convert_milliseconds(starting_value) << endl;
                     }
                 }
             }
