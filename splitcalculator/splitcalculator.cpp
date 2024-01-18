@@ -1,6 +1,7 @@
 // working currently for the Steam release of Halo: The Master Chief Collection version 1.3272.0.0
 
-#include "split.h"
+#include "Split.h"
+#include "Version.h"
 
 #include <Windows.h>
 #include <psapi.h>
@@ -15,7 +16,7 @@ using namespace std;
 // two random spaces is correct for whatever reason
 static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
-static string compatible_version = "1.3272.0.0";
+static string executable_version = "1.3272.0.0";
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName)
 {
@@ -142,9 +143,11 @@ static string convert_milliseconds(const int & clock_ticks)
 }
 
 int main() {
-    cout << "Running splitcalculator for Halo: The Master Chief Collection version " << compatible_version << endl;
+    cout << "Running splitcalculator for Halo: The Master Chief Collection version " << executable_version << endl;
     cout << endl;
     cout << "The timer may break if the build of the game does not match the version above" << endl;
+
+    Version version = Version(executable_version);
 
     while (true)
     {
@@ -169,16 +172,16 @@ int main() {
             unsigned long long haloreach_dll = (unsigned long long)haloreach_module;
             unsigned long long halo4_dll = (unsigned long long)halo4_module;
 
-            unsigned long long halo1_cs_state = halo1_dll + 0x1B860A4;
-            unsigned long long halo2_cs_state = halo2_dll + 0xDF8D74;
-            unsigned long long halo3_cs_state = halo3_dll + 0xA4E170;
-            unsigned long long halo3odst_cs_state = halo3odst_dll + 0x46E261C;
-            unsigned long long haloreach_cs_state = haloreach_dll + 0x4E2FBA8;
-            unsigned long long halo4_cs_state = halo4_dll + 0x275D550;
+            unsigned long long halo1_cs_state = halo1_dll + version.h1_cs_offset;
+            unsigned long long halo2_cs_state = halo2_dll + version.h2_cs_offset;
+            unsigned long long halo3_cs_state = halo3_dll + version.h3_cs_offset;
+            unsigned long long halo3odst_cs_state = halo3odst_dll + version.h3odst_cs_offset;
+            unsigned long long haloreach_cs_state = haloreach_dll + version.hr_cs_offset;
+            unsigned long long halo4_cs_state = halo4_dll + version.h4_cs_offset;
 
             // assuming these two values do not change depend on the game, since they are both based on the main address
-            unsigned long long menu_state = main_address + 0x3EC79A9;
-            unsigned long long screen_state = main_address + 0x3FBB499;
+            unsigned long long menu_state = main_address + version.menu_state_offset;
+            unsigned long long screen_state = main_address + version.screen_state_offset;
 
             // separate handle variable to check whether the game has been closed
             HANDLE active_handle = handle;
@@ -220,29 +223,29 @@ int main() {
                             break;
                         }
 
-                        if (read_string_from_memory(handle, halo1_dll + 0x2B22764) == "d40" &&
+                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset) == "d40" &&
                             read_int_byte_from_memory(handle, halo1_cs_state) == 7)
                             break;
 
                         // to do: test this if statement, supposed to stop timer when player reaches last
                         // cutscene of the great journey
-                        if (read_string_from_memory(handle, halo2_dll + 0xE6FE68) == "08b_deltacontrol" &&
+                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset) == "08b_deltacontrol" &&
                             read_int_byte_from_memory(handle, halo2_cs_state) == 3)
                             break;
 
-                        if (read_string_from_memory(handle, halo3_dll + 0x20A8118) == "120" &&
+                        if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset) == "120" &&
                             read_ulong_from_memory(handle, halo3_cs_state) == 1219770714111)
                             break;
 
-                        if (read_string_from_memory(handle, halo3odst_dll + 0x20EF128) == "1300" &&
+                        if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset) == "1300" &&
                             read_uint_from_memory(handle, halo3odst_cs_state) == 112)
                             break;
 
-                        if (read_string_from_memory(handle, haloreach_dll + 0x2A1F597) == "m70" &&
+                        if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset) == "m70" &&
                             read_uint_from_memory(handle, haloreach_cs_state) == 2047)
                             break;
 
-                        if (read_string_from_memory(handle, halo4_dll + 0x2AFF81F) == "m90" &&
+                        if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset) == "m90" &&
                             read_ulong_from_memory(handle, halo4_cs_state) == 0x0000000000A00006)
                             break;
 
