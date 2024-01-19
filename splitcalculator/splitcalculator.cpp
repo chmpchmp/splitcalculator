@@ -142,16 +142,17 @@ static string convert_milliseconds(const int & clock_ticks)
     return v.str() + ':' + u.str() + ':' + t.str() + '.' + s.str();
 }
 
-int main() {
+int main()
+{
     cout << "Running splitcalculator for Halo: The Master Chief Collection version " << executable_version << endl;
     cout << endl;
     cout << "The timer may break if the build of the game does not match the version above" << endl;
 
-    Version version = Version(executable_version);
-
     while (true)
     {
         HANDLE handle = get_handle(executable, executable_class);
+
+        Version version = Version(executable_version);
 
         if (handle)
         {
@@ -184,7 +185,7 @@ int main() {
             unsigned long long screen_state = main_address + version.screen_state_offset;
 
             // separate handle variable to check whether the game has been closed
-            HANDLE active_handle = handle;
+            HANDLE active_handle = get_handle(executable, executable_class);
 
             // what the timer should display if the timer is not actively tracking in-game data
             // this value should be the time of when the player exited into the menu after the first use
