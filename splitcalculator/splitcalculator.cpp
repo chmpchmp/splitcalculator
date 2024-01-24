@@ -54,13 +54,6 @@ int main()
             unsigned long long haloreach_dll = (unsigned long long)haloreach_module;
             unsigned long long halo4_dll = (unsigned long long)halo4_module;
 
-            unsigned long long halo1_cs_state = halo1_dll + version.h1_cs_offset;
-            unsigned long long halo2_cs_state = halo2_dll + version.h2_cs_offset;
-            unsigned long long halo3_cs_state = halo3_dll + version.h3_cs_offset;
-            unsigned long long halo3odst_cs_state = halo3odst_dll + version.h3odst_cs_offset;
-            unsigned long long haloreach_cs_state = haloreach_dll + version.hr_cs_offset;
-            unsigned long long halo4_cs_state = halo4_dll + version.h4_cs_offset;
-
             // assuming these two values do not change depend on the game, since they are both based on the main address
             unsigned long long menu_state = main_address + version.menu_state_offset;
             unsigned long long screen_state = main_address + version.screen_state_offset;
@@ -98,37 +91,32 @@ int main()
 
                     if (timer_on)
                     {
+                        starting_value = clock() - reset_value + addon_time;
+
                         // 0 represents player is sitting in menu, exit timer
                         if (menu_value == 0)
-                        {
-                            starting_value = clock() - reset_value + addon_time;
-                            break;
-                        }
-
-                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset) == "d40" &&
-                            read_int_byte_from_memory(handle, halo1_cs_state) == 7)
                             break;
 
                         // to do: test this if statement, supposed to stop timer when player reaches last
                         // cutscene of the great journey
                         if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset) == "08b_deltacontrol" &&
-                            read_int_byte_from_memory(handle, halo2_cs_state) == 3)
+                            read_int_byte_from_memory(handle, halo2_dll + version.h2_bsp_offset) == 3)
                             break;
 
                         if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset) == "120" &&
-                            read_ulong_from_memory(handle, halo3_cs_state) == 1219770714111)
+                            read_ulong_from_memory(handle, halo3_dll + version.h3_bsp_offset) == 1219770714111)
                             break;
 
                         if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset) == "1300" &&
-                            read_uint_from_memory(handle, halo3odst_cs_state) == 112)
+                            read_uint_from_memory(handle, halo3odst_dll + version.h3odst_bsp_offset) == 112)
                             break;
 
                         if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset) == "m70" &&
-                            read_uint_from_memory(handle, haloreach_cs_state) == 2047)
+                            read_uint_from_memory(handle, haloreach_dll + version.hr_bsp_offset) == 2047)
                             break;
 
                         if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset) == "m90" &&
-                            read_ulong_from_memory(handle, halo4_cs_state) == 0x0000000000A00006)
+                            read_ulong_from_memory(handle, halo4_dll + version.h4_bsp_offset) == 0x0000000000A00006)
                             break;
 
                         // to do: pause timer when after-level screen appears
@@ -150,13 +138,13 @@ int main()
                             reset_value = clock();
                         }
 
-                        split.update(convert_milliseconds(clock() - reset_value + addon_time));
+                        //split.update(convert_milliseconds(starting_value));
 
-                        cout << split.main_split << endl;
+                        //cout << split.main_split << endl;
                     }
                     else
                     {
-                        cout << convert_milliseconds(starting_value) << endl;
+                        //cout << convert_milliseconds(starting_value) << endl;
                     }
                 }
             }
