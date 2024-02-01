@@ -109,23 +109,23 @@ int main()
 
                         // to do: test this if statement, supposed to stop timer when player reaches last
                         // cutscene of the great journey
-                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset) == "08b_deltacontrol" &&
+                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset).compare("08b_deltacontrol") &&
                             read_int_byte_from_memory(handle, halo2_dll + version.h2_bsp_offset) == 3)
                             break;
 
-                        if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset) == "120" &&
+                        if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset).compare("120") &&
                             read_ulong_from_memory(handle, halo3_dll + version.h3_bsp_offset) == 1219770714111)
                             break;
 
-                        if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset) == "1300" &&
+                        if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset).compare("1300") &&
                             read_uint_from_memory(handle, halo3odst_dll + version.h3odst_bsp_offset) == 112)
                             break;
 
-                        if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset) == "m70" &&
+                        if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset).compare("m70") &&
                             read_uint_from_memory(handle, haloreach_dll + version.hr_bsp_offset) == 2047)
                             break;
 
-                        if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset) == "m90" &&
+                        if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset).compare("m90") &&
                             read_ulong_from_memory(handle, halo4_dll + version.h4_bsp_offset) == 0x0000000000A00006)
                             break;
 
