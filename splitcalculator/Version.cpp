@@ -4,7 +4,7 @@ Version::Version(string version)
 {
 	int c = 0;
 
-	if (version.compare("1.3272.0.0"))
+	if (version.compare("1.3272.0.0") == 0)
 		c = 1;
 
 	switch (c)
