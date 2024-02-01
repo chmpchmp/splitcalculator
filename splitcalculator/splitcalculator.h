@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include <iostream>
+
 using namespace std;
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName)
@@ -92,6 +94,13 @@ static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long 
     ReadProcessMemory(handle, (void*)address, &b, sizeof(byte), NULL);
 
     return (int)b;
+}
+
+static float read_float_from_memory(const HANDLE & handle, const unsigned long long& address) {
+    float f = 0.0;
+    ReadProcessMemory(handle, (void*)address, &f, sizeof(float), NULL);
+
+    return f;
 }
 
 static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigned long long & address)

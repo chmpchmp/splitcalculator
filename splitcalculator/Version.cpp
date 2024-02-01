@@ -34,6 +34,10 @@ Version::Version(string version)
 			// in-game time offsets
 			h1_igt_offset = 0x2EA31C4;
 
+			h1_xpos_offset = 0x2D9B9C4;
+			h1_ypos_offset = 0x2D9B9C4 + 0x4;
+			h1_zpos_offset = 0x2D9B9C4 + 0x8;
+
 			break;
 		case 2:
 			break;

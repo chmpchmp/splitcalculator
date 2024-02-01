@@ -11,7 +11,6 @@ public:
 	unsigned long long menu_state_offset;
 	unsigned long long screen_state_offset;
 
-	// current level offsets
 	// each offset should be added to their respective dll addresses
 	unsigned long long h1_level_offset;
 	unsigned long long h2_level_offset;
@@ -20,7 +19,6 @@ public:
 	unsigned long long hr_level_offset;
 	unsigned long long h4_level_offset;
 
-	// each offset should be added to their respective dll addresses
 	unsigned long long h1_bsp_offset;
 	unsigned long long h2_bsp_offset;
 	unsigned long long h3_bsp_offset;
@@ -34,6 +32,10 @@ public:
 	unsigned long long h3odst_igt_offset;
 	unsigned long long hr_igt_offset;
 	unsigned long long h4_igt_offset;
+
+	unsigned long long h1_xpos_offset;
+	unsigned long long h1_ypos_offset;
+	unsigned long long h1_zpos_offset;
 
 	Version(string version);
 };
