@@ -20,13 +20,13 @@ static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName
     return handle;
 }
 
-static unsigned long long get_handle_address(const HANDLE & handle)
+static uint64_t get_handle_address(const HANDLE & handle)
 {
     HMODULE hModules[1024];
     DWORD cbNeeded;
 
     if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded))
-        return (unsigned long long)hModules[0];
+        return (uint64_t)hModules[0];
 
     return 0;
 }
@@ -56,7 +56,7 @@ static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring & moduleName
     return NULL;
 }
 
-static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length = NULL)
+static string read_string_from_memory(const HANDLE & handle, const uint64_t & address, const int & length = NULL)
 {
     int offset = 0;
     char c = '\0';
@@ -88,7 +88,7 @@ static string read_string_from_memory(const HANDLE & handle, const unsigned long
     return s;
 }
 
-static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address)
+static int read_int_byte_from_memory(const HANDLE & handle, const uint64_t & address)
 {
     byte b = 0;
     ReadProcessMemory(handle, (void*)address, &b, sizeof(byte), NULL);
@@ -96,14 +96,14 @@ static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long 
     return (int)b;
 }
 
-static float read_float_from_memory(const HANDLE & handle, const unsigned long long& address) {
+static float read_float_from_memory(const HANDLE & handle, const uint64_t& address) {
     float f = 0.0;
     ReadProcessMemory(handle, (void*)address, &f, sizeof(float), NULL);
 
     return f;
 }
 
-static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigned long long & address)
+static unsigned long read_ulong_from_memory(const HANDLE & handle, const uint64_t & address)
 {
     unsigned long ul = 0;
     ReadProcessMemory(handle, (void*)address, &ul, sizeof(unsigned long), NULL);
@@ -111,7 +111,7 @@ static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigne
     return ul;
 }
 
-static unsigned int read_uint_from_memory(const HANDLE & handle, const unsigned long long & address)
+static unsigned int read_uint_from_memory(const HANDLE & handle, const uint64_t & address)
 {
     unsigned int ui = 0;
     ReadProcessMemory(handle, (void*)address, &ui, sizeof(unsigned int), NULL);
@@ -128,7 +128,7 @@ static string convert_milliseconds(const int & clock_ticks)
     int minutes = (int)((ms / (1000 * 60)) % 60);
     int hours = (int)(ms / (1000 * 60 * 60));
 
-    if (milliseconds == 1)
+    if (milliseconds <= 10)
         milliseconds = 0;
 
     stringstream s;

@@ -15,13 +15,13 @@ static LPCSTR executable_class = "UnrealWindow";
 static string executable_version = "1.3272.0.0";
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName);
-static unsigned long long get_handle_address(const HANDLE & handle);
+static uint64_t get_handle_address(const HANDLE & handle);
 static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring& moduleName);
-static string read_string_from_memory(const HANDLE & handle, const unsigned long long & address, const int & length);
-static int read_int_byte_from_memory(const HANDLE & handle, const unsigned long long & address);
-static float read_float_from_memory(const HANDLE & handle, const unsigned long long & address);
-static unsigned long read_ulong_from_memory(const HANDLE & handle, const unsigned long long & address);
-static unsigned int read_uint_from_memory(const HANDLE & handle, const unsigned long long & address);
+static string read_string_from_memory(const HANDLE & handle, const uint64_t & address, const int & length);
+static int read_int_byte_from_memory(const HANDLE & handle, const uint64_t & address);
+static float read_float_from_memory(const HANDLE & handle, const uint64_t & address);
+static unsigned long read_ulong_from_memory(const HANDLE & handle, const uint64_t & address);
+static unsigned int read_uint_from_memory(const HANDLE & handle, const uint64_t & address);
 static string convert_milliseconds(const int & clock_ticks);
 
 int main()
