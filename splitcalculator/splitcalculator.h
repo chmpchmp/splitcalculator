@@ -128,6 +128,9 @@ static string convert_milliseconds(const int & clock_ticks)
     int minutes = (int)((ms / (1000 * 60)) % 60);
     int hours = (int)(ms / (1000 * 60 * 60));
 
+    if (milliseconds == 1)
+        milliseconds = 0;
+
     stringstream s;
     stringstream t;
     stringstream u;
