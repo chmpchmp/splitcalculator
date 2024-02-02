@@ -3,6 +3,7 @@
 #include "splitcalculator.h"
 #include "Split.h"
 #include "Version.h"
+#include "Flag.h"
 
 #include <ctime>
 #include <iostream>
@@ -35,6 +36,7 @@ int main()
         HANDLE handle = get_handle(executable, executable_class);
 
         Version version = Version(executable_version);
+        Flag flag = Flag();
 
         if (handle)
         {
@@ -86,10 +88,6 @@ int main()
 
                     string s;
 
-                    // start timer if player exits from menu
-                    //if (menu_value != 0)
-                    //    timer_on = true;
-
                     // start timer if player enters a loading screen
                     if (screen_value == 44)
                         timer_on = true;
@@ -102,15 +100,21 @@ int main()
                         if (menu_value == 0)
                             break;
 
-                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset).compare("d40") &&
+                        // coordinate value truncation sucks, will fix later
+                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset).compare(flag.h1_level_tags[flag.h1_level_tags.size() - 1]) &&
                             read_int_byte_from_memory(handle, halo1_dll + version.h1_bsp_offset) == 7 &&
-                            (int)read_float_from_memory(handle, halo1_dll + version.h1_xpos_offset) == 1062)
+                            (int)read_float_from_memory(handle, halo1_dll + version.h1_xpos_offset) == 1062 &&
+                            (int)read_float_from_memory(handle, halo1_dll + version.h1_ypos_offset) == -3 &&
+                            (int)read_float_from_memory(handle, halo1_dll + version.h1_zpos_offset) == 35)
                             break;
 
                         // to do: test this if statement, supposed to stop timer when player reaches last
                         // cutscene of the great journey
-                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset).compare("08b_deltacontrol") &&
-                            read_int_byte_from_memory(handle, halo2_dll + version.h2_bsp_offset) == 3)
+                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset, 3).compare(flag.h2_level_tags[flag.h2_level_tags.size() - 1]) &&
+                            read_int_byte_from_memory(handle, halo2_dll + version.h2_bsp_offset) == 3 &&
+                            (int)read_float_from_memory(handle, halo2_dll + version.h2_xpos_offset) == -16 &&
+                            (int)read_float_from_memory(handle, halo2_dll + version.h2_ypos_offset) == 165 &&
+                            (int)read_float_from_memory(handle, halo2_dll + version.h2_zpos_offset) == 24)
                             break;
 
                         if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset).compare("120") &&

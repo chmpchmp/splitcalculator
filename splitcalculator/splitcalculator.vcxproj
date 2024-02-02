@@ -132,6 +132,7 @@
     <ClCompile Include="Version.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Flag.h" />
     <ClInclude Include="Split.h" />
     <ClInclude Include="splitcalculator.h" />
     <ClInclude Include="Version.h" />

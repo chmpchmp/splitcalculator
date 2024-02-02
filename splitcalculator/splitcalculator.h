@@ -6,8 +6,6 @@
 #include <sstream>
 #include <iomanip>
 
-#include <iostream>
-
 using namespace std;
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName)
