@@ -4,7 +4,7 @@ Version::Version(string version)
 {
 	int c = 0;
 
-	if (version == "1.3272.0.0")
+	if (version.compare("1.3272.0.0") == 0)
 		c = 1;
 
 	switch (c)
@@ -35,7 +35,6 @@ Version::Version(string version)
 			h1_ypos_offset = 0x2D9B9C4 + 0x4;
 			h1_zpos_offset = 0x2D9B9C4 + 0x8;
 
-			// to do: test offset
 			h2_xpos_offset = 0xE7F5E8;
 			h2_ypos_offset = 0xE7F5E8 + 0x4;
 			h2_zpos_offset = 0xE7F5E8 + 0x8;

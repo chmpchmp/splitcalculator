@@ -10,6 +10,8 @@
 
 using namespace std;
 
+bool command_line_output = false;
+
 // two random spaces is correct for whatever reason
 static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
@@ -27,9 +29,11 @@ static string convert_milliseconds(const int & clock_ticks);
 
 int main()
 {
-    cout << "Running splitcalculator for Halo: The Master Chief Collection version " << executable_version << endl;
-    cout << endl;
-    cout << "The timer may break if the build of the game does not match the version above" << endl;
+    if (command_line_output) {
+        cout << "Running splitcalculator for Halo: The Master Chief Collection version " << executable_version << endl;
+        cout << endl;
+        cout << "The timer may break if the build of the game does not match the version above" << endl;
+    }
 
     while (true)
     {
@@ -89,7 +93,7 @@ int main()
                     string s;
 
                     // start timer if player enters a loading screen
-                    if (screen_value == 44)
+                    if (menu_value != 0 && (screen_value == 44 || screen_value == 129 || screen_value == 255))
                         timer_on = true;
 
                     if (timer_on)
@@ -101,41 +105,40 @@ int main()
                             break;
 
                         // coordinate value truncation sucks, will fix later
-                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset).compare(flag.h1_level_tags[flag.h1_level_tags.size() - 1]) &&
+                        if (read_string_from_memory(handle, halo1_dll + version.h1_level_offset, 3).compare(flag.h1_level_tags[flag.h1_level_tags.size() - 1]) == 0 &&
                             read_int_byte_from_memory(handle, halo1_dll + version.h1_bsp_offset) == 7 &&
                             (int)read_float_from_memory(handle, halo1_dll + version.h1_xpos_offset) == 1062 &&
                             (int)read_float_from_memory(handle, halo1_dll + version.h1_ypos_offset) == -3 &&
                             (int)read_float_from_memory(handle, halo1_dll + version.h1_zpos_offset) == 35)
                             break;
 
-                        // to do: test this if statement, supposed to stop timer when player reaches last
-                        // cutscene of the great journey
-                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset, 3).compare(flag.h2_level_tags[flag.h2_level_tags.size() - 1]) &&
+                        if (read_string_from_memory(handle, halo2_dll + version.h2_level_offset, 3).compare(flag.h2_level_tags[flag.h2_level_tags.size() - 1]) == 0 &&
                             read_int_byte_from_memory(handle, halo2_dll + version.h2_bsp_offset) == 3 &&
                             (int)read_float_from_memory(handle, halo2_dll + version.h2_xpos_offset) == -16 &&
                             (int)read_float_from_memory(handle, halo2_dll + version.h2_ypos_offset) == 165 &&
                             (int)read_float_from_memory(handle, halo2_dll + version.h2_zpos_offset) == 24)
                             break;
 
-                        if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset).compare("120") &&
+                        if (read_string_from_memory(handle, halo3_dll + version.h3_level_offset).compare("120") == 0 &&
                             read_ulong_from_memory(handle, halo3_dll + version.h3_bsp_offset) == 1219770714111)
                             break;
 
-                        if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset).compare("1300") &&
+                        if (read_string_from_memory(handle, halo3odst_dll + version.h3odst_level_offset).compare("1300") == 0 &&
                             read_uint_from_memory(handle, halo3odst_dll + version.h3odst_bsp_offset) == 112)
                             break;
 
-                        if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset).compare("m70") &&
+                        if (read_string_from_memory(handle, haloreach_dll + version.hr_level_offset).compare("m70") == 0 &&
                             read_uint_from_memory(handle, haloreach_dll + version.hr_bsp_offset) == 2047)
                             break;
 
-                        if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset).compare("m90") &&
+                        if (read_string_from_memory(handle, halo4_dll + version.h4_level_offset).compare("m90") == 0 &&
                             read_ulong_from_memory(handle, halo4_dll + version.h4_bsp_offset) == 0x0000000000A00006)
                             break;
 
-                        // to do: pause timer when after-level screen appears
+                        // only h1 does not pause at postgame carnage report
                         // 129 represents pause menu, 255 represents in-game, 57 represents postgame carnage report
-                        if (screen_value == 129 || screen_value == 255 || screen_value == 57)
+                        //if (screen_value == 129 || screen_value == 255 || screen_value == 57)
+                        if (screen_value == 129 || screen_value == 255)
                         {
                             save_time = true;
                         }
@@ -154,11 +157,13 @@ int main()
 
                         split.update(convert_milliseconds(starting_value));
 
-                        cout << split.main_split << endl;
+                        if (command_line_output)
+                            cout << split.main_split << endl;
                     }
                     else
                     {
-                        cout << convert_milliseconds(starting_value) << endl;
+                        if (command_line_output)
+                            cout << convert_milliseconds(starting_value) << endl;
                     }
                 }
             }
