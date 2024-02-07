@@ -40,5 +40,56 @@ public:
         "07b", // High Charity
         "08b" // The Great Journey
     };
+
+    vector<string> h3_level_tags =
+    {
+        "010", // Sierra 117
+        "020", // Crows' Nest
+        "030", // Tsavo Highway
+        "040", // The Storm
+        "050", // Floodgate
+        "070", // The Ark
+        "100", // The Covenant
+        "110", // Cortana
+        "120", // Halo
+    };
+
+    vector<string> h3odst_level_tags =
+    {
+        "h100", // Mombasa Streets
+        "sc10", // Tayari Plaza
+        "sc11", // Uplift Reserve
+        "sc12", // Kizingo Boulevard
+        "sc13", // ONI Alpha Site
+        "sc14", // NMPD HQ
+        "sc15", // Kikowani Station
+        "1200", // Data Hive
+        "1300" // Coastal Highway
+    };
+
+    vector<string> hr_level_tags =
+    {
+        "m10", // Winter Contingency
+        "m20", // ONI: Sword Base
+        "m30", // Nightfall
+        "m35", // Tip of the Spear
+        "m45", // Long Night of Solace
+        "m50", // Exodus
+        "m52", // New Alexandria
+        "m60", // The Package
+        "m70" // The Pillar of Autumn
+    };
+
+    vector<string> h4_level_tags =
+    {
+        "m10", // Dawn
+        "m02", // Requiem
+        "m30", // Forerunner
+        "m40", // Infinity
+        "m60", // Reclaimer
+        "m70", // Shutdown
+        "m80", // Composer
+        "m90" // Midnight
+    };
 };
 
