@@ -10,7 +10,7 @@
 
 using namespace std;
 
-bool command_line_output = false;
+bool debug_output = false;
 
 // two random spaces is correct for whatever reason
 static LPCSTR executable = "Halo: The Master Chief Collection  ";
@@ -18,6 +18,7 @@ static LPCSTR executable_class = "UnrealWindow";
 static string executable_version = "1.3272.0.0";
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName);
+static void get_executable_version(const HANDLE & handle);
 static uint64_t get_handle_address(const HANDLE & handle);
 static HMODULE get_dll_hmodule(const HANDLE & handle, const wstring& moduleName);
 static string read_string_from_memory(const HANDLE & handle, const uint64_t & address, const int & length);
@@ -29,7 +30,7 @@ static string convert_milliseconds(const int & clock_ticks);
 
 int main()
 {
-    if (command_line_output) {
+    if (debug_output) {
         cout << "Running splitcalculator for Halo: The Master Chief Collection version " << executable_version << endl;
         cout << endl;
         cout << "The timer may break if the build of the game does not match the version above" << endl;
@@ -38,6 +39,7 @@ int main()
     while (true)
     {
         HANDLE handle = get_handle(executable, executable_class);
+        get_executable_version(handle);
 
         Version version = Version(executable_version);
         Flag flag = Flag();
@@ -84,6 +86,7 @@ int main()
 
                 while (active_handle)
                 {
+                    // find better way to check and manage active handle
                     CloseHandle(active_handle);
                     active_handle = get_handle(executable, executable_class);
 
@@ -157,12 +160,12 @@ int main()
 
                         split.update(convert_milliseconds(starting_value));
 
-                        if (command_line_output)
+                        if (debug_output)
                             cout << split.main_split << endl;
                     }
                     else
                     {
-                        if (command_line_output)
+                        if (debug_output)
                             cout << convert_milliseconds(starting_value) << endl;
                     }
                 }

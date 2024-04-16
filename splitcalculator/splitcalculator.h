@@ -2,9 +2,12 @@
 
 #include <Windows.h>
 #include <psapi.h>
+//#include <winver.h>
 #include <string>
 #include <sstream>
 #include <iomanip>
+
+#include <iostream>
 
 using namespace std;
 
@@ -16,6 +19,46 @@ static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName
     HANDLE handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
 
     return handle;
+}
+
+static void get_executable_version(const HANDLE & handle)
+{
+    HMODULE hModules[1024];
+    DWORD cbNeeded;
+
+    if (EnumProcessModules(handle, hModules, sizeof(hModules), &cbNeeded))
+    {
+        TCHAR modName[MAX_PATH];
+
+        for (int i = 0; i < MAX_PATH; i++)
+            modName[i] = 0;
+
+        if (GetModuleFileNameEx(handle, NULL, modName, sizeof(modName) / sizeof(TCHAR)))
+        {
+            int pathLength = 0;
+
+            // find null terminator to find path length
+            for (int i = 0; i < MAX_PATH; i++) {
+                if (modName[i] == 0)
+                    break;
+
+                pathLength++;
+            }
+
+            cout << pathLength << endl;
+
+            // executable version length is 10
+            LPSTR version[10];
+
+            if (GetFileVersionInfoW(modName, NULL, 10, version))
+            {
+
+            }
+
+            //DWORD verHandle;
+            //DWORD verSize = GetFileVersionInfoSizeW(modName, &verHandle);
+        }
+    }
 }
 
 static uint64_t get_handle_address(const HANDLE & handle)
