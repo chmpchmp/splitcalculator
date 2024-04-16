@@ -26,13 +26,6 @@ public:
 	uint64_t hr_bsp_offset;
 	uint64_t h4_bsp_offset;
 
-	uint64_t h1_igt_offset;
-	uint64_t h2_igt_offset;
-	uint64_t h3_igt_offset;
-	uint64_t h3odst_igt_offset;
-	uint64_t hr_igt_offset;
-	uint64_t h4_igt_offset;
-
 	uint64_t h1_xpos_offset;
 	uint64_t h1_ypos_offset;
 	uint64_t h1_zpos_offset;
