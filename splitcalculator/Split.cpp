@@ -1,16 +1,13 @@
 #include "Split.h"
 
-Split::Split()
-{
+Split::Split() {
 
 }
 
-void Split::update(const string & split)
-{
+void Split::update(const string & split) {
 	main_split = split;
 }
 
-void Split::save()
-{
+void Split::save() {
 	subsplits.push_back(main_split);
 }

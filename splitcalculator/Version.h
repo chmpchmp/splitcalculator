@@ -4,8 +4,7 @@
 
 using namespace std;
 
-class Version
-{
+class Version {
 public:
 	// these offsets should be applied to the address of the main executable
 	uint64_t menu_state_offset;

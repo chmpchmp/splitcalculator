@@ -5,11 +5,9 @@
 
 using namespace std;
 
-class Flag
-{
+class Flag {
 public:
-    vector<string> h1_level_tags =
-    {
+    vector<string> h1_level_tags = {
         "a10", // The Pillar of Autumn
         "a30", // Halo
         "a50", // The Truth and Reconciliation
@@ -22,8 +20,7 @@ public:
         "d40" // The Maw
     };
 
-    vector<string> h2_level_tags =
-    {
+    vector<string> h2_level_tags = {
         "00a", // The Heretic
         "01a", // The Armory
         "01b", // Cairo Station
@@ -41,8 +38,7 @@ public:
         "08b" // The Great Journey
     };
 
-    vector<string> h3_level_tags =
-    {
+    vector<string> h3_level_tags = {
         "010", // Sierra 117
         "020", // Crows' Nest
         "030", // Tsavo Highway
@@ -54,8 +50,7 @@ public:
         "120", // Halo
     };
 
-    vector<string> h3odst_level_tags =
-    {
+    vector<string> h3odst_level_tags = {
         "h100", // Mombasa Streets
         "sc10", // Tayari Plaza
         "sc11", // Uplift Reserve
@@ -67,8 +62,7 @@ public:
         "1300" // Coastal Highway
     };
 
-    vector<string> hr_level_tags =
-    {
+    vector<string> hr_level_tags = {
         "m10", // Winter Contingency
         "m20", // ONI: Sword Base
         "m30", // Nightfall
@@ -80,8 +74,7 @@ public:
         "m70" // The Pillar of Autumn
     };
 
-    vector<string> h4_level_tags =
-    {
+    vector<string> h4_level_tags = {
         "m10", // Dawn
         "m02", // Requiem
         "m30", // Forerunner

@@ -1,9 +1,7 @@
 #include "Version.h"
 
-Version::Version(string version)
-{
-	if (version.compare("1.3272.0.0") == 0)
-	{
+Version::Version(string version) {
+	if (version.compare("1.3272.0.0") == 0) {
 		// these offsets should be applied to the address of the main executable
 		menu_state_offset = 0x3EC79A9;
 		screen_state_offset = 0x3FBB499;
@@ -32,9 +30,7 @@ Version::Version(string version)
 		h2_xpos_offset = 0xE7F5E8;
 		h2_ypos_offset = 0xE7F5E8 + 0x4;
 		h2_zpos_offset = 0xE7F5E8 + 0x8;
-	}
-	else
-	{
+	} else {
 		throw "version " + version + " is not supported";
 	}
 };

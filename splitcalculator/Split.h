@@ -5,8 +5,7 @@
 
 using namespace std;
 
-class Split
-{
+class Split {
 public:
     vector<string> subsplits;
     string main_split;
