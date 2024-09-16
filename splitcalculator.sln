@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "splitcalculator", "splitcalculator\splitcalculator.vcxproj", "{4401C9B5-89AF-458E-9915-8C2B30058243}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Debug|x64.ActiveCfg = Debug|x64
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Debug|x64.Build.0 = Debug|x64
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Debug|x86.ActiveCfg = Debug|Win32
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Debug|x86.Build.0 = Debug|Win32
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Release|x64.ActiveCfg = Release|x64
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Release|x64.Build.0 = Release|x64
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Release|x86.ActiveCfg = Release|Win32
+		{4401C9B5-89AF-458E-9915-8C2B30058243}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9171855-442B-4764-AE0F-CBF51B25C781}
+	EndGlobalSection
+EndGlobal
