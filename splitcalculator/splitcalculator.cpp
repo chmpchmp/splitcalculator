@@ -1,5 +1,3 @@
-// working currently for the Steam release of Halo: The Master Chief Collection version 1.3385.0.0
-
 #include "timer.h"
 
 #include "imgui.h"
@@ -48,18 +46,12 @@ int main(int, char**)
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
 
     io.Fonts->AddFontFromFileTTF("fonts\\Ubuntu-Regular.ttf", 100.0f);
-
-
-    // Our state
-    //bool show_demo_window = false;
-    //bool show_another_window = false;
 
     // Main loop
     Timer timer = Timer();
@@ -112,8 +104,6 @@ int main(int, char**)
         ImGui::SetNextWindowSize(ImVec2(540, 400));
         ImGui::Begin(" ", open_ptr, window_flags);
         ImGui::Text(timer.update_data().c_str());
-        //static float f = 0.0f;
-        //ImGui::Text("\n%.0f fps", io.Framerate);
         ImGui::End();
 
 
@@ -201,10 +191,6 @@ void CleanupRenderTarget()
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Win32 message handler
-// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
