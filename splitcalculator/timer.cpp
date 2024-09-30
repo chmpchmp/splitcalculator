@@ -1,20 +1,18 @@
 #include "timer.h"
 
-Timer::Timer(): current_frame(0), game_version(Version(executable_version)), level_flags(Flag()),
-game_handle(get_handle(executable, executable_class)), timer(clock()), current_value(0), split(Split()),
-addon_time(0), reset_value(0), save_time(false), timer_on(false) {
+Timer::Timer(): frame(0), game_handle(get_handle(executable, executable_class)), executable_version(get_executable_version(game_handle)),
+game_version(Version(executable_version)), level_flags(Flag()), timer(clock()), current_value(0), split(Split()), addon_time(0),
+reset_value(0), save_time(false), timer_on(false) {
 
 }
 
 std::string Timer::update_data() {
-    if (current_frame == update_speed) {
-        current_frame = 0;
+    if (frame == update_speed) {
+        frame = 0;
 
         game_handle = get_handle(executable, executable_class);
 
         if (game_handle) {
-            //executable_version = get_executable_version(game_handle);
-
             uint64_t main_address = get_handle_address(game_handle);
 
             // anti-cheat must be turned off to find game module
@@ -123,7 +121,7 @@ std::string Timer::update_data() {
         }
     }
     else {
-        current_frame++;
+        frame++;
     }
 
     return convert_milliseconds(current_value);
@@ -143,9 +141,10 @@ static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName
     return handle;
 }
 
-static void get_executable_version(const HANDLE & handle)
+static std::string get_executable_version(const HANDLE & handle)
 {
-
+    // fixed value for now
+    return "1.3385.0.0";
 }
 
 static uint64_t get_handle_address(const HANDLE & handle) {

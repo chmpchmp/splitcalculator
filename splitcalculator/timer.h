@@ -15,19 +15,19 @@
 // two random spaces are correct for whatever reason
 static LPCSTR executable = "Halo: The Master Chief Collection  ";
 static LPCSTR executable_class = "UnrealWindow";
-static std::string executable_version = "1.3385.0.0";
 static int update_speed = 50;
 
 class Timer
 {
     bool test_output = false;
 
-    int current_frame;
+    int frame;
+
+    HANDLE game_handle;
+    std::string executable_version;
 
     Version game_version;
     Flag level_flags;
-
-    HANDLE game_handle;
 
     // instance variables to for timer start-stop logic
     int current_value;
@@ -49,7 +49,7 @@ public:
 };
 
 static HANDLE get_handle(const LPCSTR & lpWindowName, const LPCSTR & lpClassName);
-static void get_executable_version(const HANDLE & handle);
+static std::string get_executable_version(const HANDLE & handle);
 static uint64_t get_handle_address(const HANDLE & handle);
 static HMODULE get_dll_hmodule(const HANDLE & handle, const std::wstring & moduleName);
 static std::string read_string_from_memory(const HANDLE & handle, const uint64_t & address, const int & length);
